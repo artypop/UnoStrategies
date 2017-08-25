@@ -13,7 +13,7 @@ object ManyGames extends App {
   var gameWinnedByPlayer2 = 0
 
 
-  val numberOfGames = 10000000
+  val numberOfGames = 100000
 
   (1 to numberOfGames).foreach {
     i => {

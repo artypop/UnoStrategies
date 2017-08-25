@@ -21,6 +21,12 @@ trait Strategy {
 
   }
 
+  def isSuperJokerPlayable(baseDecision: PlayerInfos): Boolean = {
+
+    !baseDecision.allCards.exists(_.color == baseDecision.currentCard.color)
+
+  }
+
 }
 
 
@@ -79,6 +85,7 @@ object OtherRandomStrategy extends Strategy {
       val randomIndex: Int = r.nextInt(playableCards.length)
       Some(playableCards(randomIndex)._2)
 
+
     }
   }
 
@@ -86,15 +93,15 @@ object OtherRandomStrategy extends Strategy {
 
 
     baseDecision.allCards.flatMap(_.color)
-        .groupBy(identity)
-        .mapValues(_.length)
-        .toArray
-        .maxOptionBy(_._2)
-        .map(_._1)
-          .getOrElse{
-            val colors = Array(Colors.Bleu, Colors.Vert, Colors.Rouge, Colors.Jaune)
-            colors(r.nextInt(4))
-          }
+      .groupBy(identity)
+      .mapValues(_.length)
+      .toArray
+      .maxOptionBy(_._2)
+      .map(_._1)
+      .getOrElse {
+        val colors = Array(Colors.Bleu, Colors.Vert, Colors.Rouge, Colors.Jaune)
+        colors(r.nextInt(4))
+      }
   }
 
 }
@@ -113,24 +120,10 @@ object StrongestStrategy extends Strategy {
 
     }
 
-    if (playableCards.isEmpty) None
+    if (isSuperJokerPlayable(baseDecision))
+      playableCards.maxOptionBy(_._1.cardValue.score).map(_._2) else
+      playableCards.filter(_._1.cardValue.isSuperJoker == false).maxOptionBy(_._1.cardValue.score).map(_._2)
 
-    else {
-
-      var cardMax:Array[Int] = new Array[Int](playableCards.length)
-
-      for (i <- playableCards.indices) {
-      cardMax(i) = playableCards(i)._1.cardValue.score
-      }
-
-      val cardIndex = cardMax.indexOf(cardMax.max)
-
-      // val randomIndex: Int = r.nextInt(playableCards.length)
-      // Some(playableCards(randomIndex)._2)
-
-      Some(playableCards(cardIndex)._2)
-
-    }
   }
 
   override def choseColor(baseDecision: PlayerInfos): Color = {
@@ -141,7 +134,7 @@ object StrongestStrategy extends Strategy {
       .toArray
       .maxOptionBy(_._2)
       .map(_._1)
-      .getOrElse{
+      .getOrElse {
         val colors = Array(Colors.Bleu, Colors.Vert, Colors.Rouge, Colors.Jaune)
         colors(r.nextInt(4))
       }

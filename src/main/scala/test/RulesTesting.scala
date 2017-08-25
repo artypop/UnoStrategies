@@ -13,7 +13,7 @@ object RulesTesting extends App {
   val card4 = Card(CardValue(CardTypes.passeTour), Some(Colors.Bleu))
   val card5 = Card(CardValue(CardTypes.joker), None) */
 
-  val playerOneStrategy = OtherRandomStrategy
+  val playerOneStrategy = StrongestStrategy
   val playerTwoStrategy = StrongestStrategy
 
   val game = new Game(playerOneStrategy, playerTwoStrategy)

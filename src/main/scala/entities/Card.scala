@@ -48,7 +48,7 @@ case class CardValue(cardType: CardTypes.CardType) {
 
   val isJoker: Boolean = cardType == CardTypes.joker | cardType == CardTypes.superJoker
   val makesSkipTurn: Boolean = cardType == CardTypes.changeSens | cardType == CardTypes.passeTour | cardType == CardTypes.plusDeux | cardType == CardTypes.superJoker
-
+  val isSuperJoker: Boolean = cardType == CardTypes.superJoker
 }
 
 
