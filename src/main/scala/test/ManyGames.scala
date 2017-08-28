@@ -12,7 +12,7 @@ object ManyGames extends App {
   val playerTwoStrategy = StrongestStrategy
 
   // Number of games played
-  val numberOfGames = 50000
+  val numberOfGames = 500000
 
   // Initialisation
   val game = new Game(playerOneStrategy, playerTwoStrategy)
@@ -27,11 +27,15 @@ object ManyGames extends App {
   (1 to numberOfGames).foreach {
     i => {
 
+      /*
       val firstPlayer = i match {
         case n if n % 2 == 0 => false
         case _ => true
       }
+      */
 
+
+      val firstPlayer = i % 2 == 1
 
       var gameState = game.initialize(firstPlayer)
 
