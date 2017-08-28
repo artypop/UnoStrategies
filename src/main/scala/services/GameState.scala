@@ -108,17 +108,12 @@ case class GameState(firstPlayerPlaying: Boolean, stack: List[Card], currentPlay
   }
 
   def gameEnded(): Boolean = {
-
     otherPlayerHand.isEmpty | currentPlayerHand.isEmpty
-
-
   }
 
 
   def winner(): Boolean = {
-
     (firstPlayerPlaying | !currentPlayerHand.isEmpty) & !(firstPlayerPlaying & otherPlayerHand.isEmpty)
-
   }
 
   def calculateScore(player: Boolean): Int = {

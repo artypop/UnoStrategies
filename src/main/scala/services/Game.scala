@@ -7,6 +7,23 @@ import entities.{Colors, Deck}
   * Created by Simon on 20/08/2017.
   */
 
+case class Result(firstPlayerVictories:Int,
+                  secondPlayerVictories:Int,
+                  firstPlayerScore:Int,
+                  secondPlayerScore:Int){
+
+  def +(anotherResult:Result):Result ={
+    Result(
+      this.firstPlayerVictories + anotherResult.firstPlayerVictories,
+      this.secondPlayerVictories + anotherResult.secondPlayerVictories,
+      this.firstPlayerScore + anotherResult.firstPlayerScore,
+      this.secondPlayerScore + anotherResult.secondPlayerScore
+    )
+  }
+
+}
+
+
 class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
 
   def initialize(firstPlayerPlaying: Boolean): GameState = {
@@ -23,4 +40,27 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
 
   }
 
+  def playOneSet(firstPlayerStarting:Boolean):Result = {
+
+    var gameState = this.initialize(firstPlayerStarting)
+
+    while (!gameState.gameEnded()) {
+      gameState = if (gameState.firstPlayerPlaying) {
+        gameState.playTurn(firstPlayerStrategy)
+      } else {
+        gameState.playTurn(secondPlayerStrategy)
+      }
+    }
+
+    if (gameState.winner()) {
+      Result(1,0,gameState.calculateScore(true),0)
+    }
+    else {
+      Result(0,1,0,gameState.calculateScore(false))
+    }
+  }
+
 }
+
+
+
