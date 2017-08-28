@@ -1,12 +1,11 @@
 package test
 
-import entities.{Card, CardTypes, CardValue, Colors}
-import services.{Game, RandomStrategy, OtherRandomStrategy}
+import services._
 
 object GamesTesting extends App {
 
-  val playerOneStrategy = RandomStrategy
-  val playerTwoStrategy = OtherRandomStrategy
+  val playerOneStrategy = StrongestStrategy
+  val playerTwoStrategy = PlayingZeroFirst
 
 
   val game = new Game(playerOneStrategy, playerTwoStrategy)

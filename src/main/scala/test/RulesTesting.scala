@@ -1,20 +1,18 @@
 package test
 
-import entities.{Card, CardTypes, CardValue, Colors}
-import services.{Game, RandomStrategy, OtherRandomStrategy, StrongestStrategy}
-import tools.CustomArray._
+import services._
 
 object RulesTesting extends App {
 
 
-/*  val card1 = Card(CardValue(CardTypes.cinq), Some(Colors.Bleu))
-  val card2 = Card(CardValue(CardTypes.trois), Some(Colors.Jaune))
-  val card3 = Card(CardValue(CardTypes.trois), Some(Colors.Vert))
-  val card4 = Card(CardValue(CardTypes.passeTour), Some(Colors.Bleu))
-  val card5 = Card(CardValue(CardTypes.joker), None) */
+  /*  val card1 = Card(CardValue(CardTypes.cinq), Some(Colors.Bleu))
+    val card2 = Card(CardValue(CardTypes.trois), Some(Colors.Jaune))
+    val card3 = Card(CardValue(CardTypes.trois), Some(Colors.Vert))
+    val card4 = Card(CardValue(CardTypes.passeTour), Some(Colors.Bleu))
+    val card5 = Card(CardValue(CardTypes.joker), None) */
 
-  val playerOneStrategy = StrongestStrategy
-  val playerTwoStrategy = StrongestStrategy
+  val playerOneStrategy = PlayingZeroFirst
+  val playerTwoStrategy = PlayingZeroFirst
 
   val game = new Game(playerOneStrategy, playerTwoStrategy)
 

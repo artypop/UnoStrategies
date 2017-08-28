@@ -120,4 +120,17 @@ case class GameState(firstPlayerPlaying: Boolean, stack: List[Card], currentPlay
 
   }
 
+  def calculateScore(player: Boolean): Int = {
+
+    if (currentPlayerHand.isEmpty)
+      scoreHand(otherPlayerHand) else
+    scoreHand(currentPlayerHand)
+
+  }
+
+  def scoreHand(hand: Array[Card]): Int = {
+
+    (0 /: hand.map(_.cardValue.score)) (_ + _)
+
+  }
 }

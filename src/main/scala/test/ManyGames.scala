@@ -1,10 +1,10 @@
 package test
 
-import services.{Game, OtherRandomStrategy, RandomStrategy, StrongestStrategy}
+import services._
 
 object ManyGames extends App {
 
-  val playerOneStrategy = OtherRandomStrategy
+  val playerOneStrategy = PlayingZeroFirst
   val playerTwoStrategy = StrongestStrategy
 
   val game = new Game(playerOneStrategy, playerTwoStrategy)
