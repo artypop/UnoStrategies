@@ -1,5 +1,6 @@
 package services
 
+import strategies.Strategy
 import entities.{Colors, Deck}
 
 /**

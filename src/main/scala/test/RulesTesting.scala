@@ -1,5 +1,6 @@
 package test
 
+import strategies._
 import services._
 
 object RulesTesting extends App {

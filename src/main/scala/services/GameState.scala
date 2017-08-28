@@ -1,5 +1,6 @@
 package services
 
+import strategies.Strategy
 import entities.{Card, CardTypes, Colors}
 import entities.Colors.Color
 import tools.CustomArray._

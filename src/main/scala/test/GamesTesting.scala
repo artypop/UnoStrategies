@@ -1,5 +1,6 @@
 package test
 
+import strategies._
 import services._
 
 object GamesTesting extends App {
@@ -13,7 +14,7 @@ object GamesTesting extends App {
   var gameWinnedByPlayer1 = 0
   var gameWinnedByPlayer2 = 0
 
-  val numberOfGames = 20
+  val numberOfGames = 200
 
   (1 to numberOfGames).foreach {
     i => {

@@ -1,7 +1,7 @@
 package test
 
-import services.{Game, RandomStrategy, OtherRandomStrategy}
-
+import strategies._
+import services.Game
 object OneGameWithScore extends App {
 
   val playerOneStrategy = RandomStrategy
