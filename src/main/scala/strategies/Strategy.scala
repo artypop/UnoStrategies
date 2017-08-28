@@ -28,23 +28,3 @@ trait Strategy {
   }
 
 }
-
-
-// Pure random strategy
-
-
-
-// Better strategy : choose color with max number of cards
-
-
-
-// Pick the strongest card on the hand & choose color with max number of cards
-
-
-
-// Pick Zero as soon as it cans or else the strongest card on the hand & choose color with max number of cards
-
-
-
-
-
