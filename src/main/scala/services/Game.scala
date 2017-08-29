@@ -7,12 +7,12 @@ import entities.{Colors, Deck}
   * Created by Simon on 20/08/2017.
   */
 
-case class Result(firstPlayerVictories:Int,
-                  secondPlayerVictories:Int,
-                  firstPlayerScore:Int,
-                  secondPlayerScore:Int){
+case class Result(firstPlayerVictories: Int,
+                  secondPlayerVictories: Int,
+                  firstPlayerScore: Int,
+                  secondPlayerScore: Int) {
 
-  def +(anotherResult:Result):Result ={
+  def +(anotherResult: Result): Result = {
     Result(
       this.firstPlayerVictories + anotherResult.firstPlayerVictories,
       this.secondPlayerVictories + anotherResult.secondPlayerVictories,
@@ -35,12 +35,12 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
     val stack = deck.allCards.drop(15)
 
     if (firstCard.color.isDefined)
-    GameState(firstPlayerPlaying, stack, firstPlayerHand, secondPlayerHand, firstCard, None)
+      GameState(firstPlayerPlaying, stack, firstPlayerHand, secondPlayerHand, firstCard, None)
     else GameState(firstPlayerPlaying, stack, firstPlayerHand, secondPlayerHand, firstCard, Some(firstPlayerStrategy.choseColorRandomly()))
 
   }
 
-  def playOneSet(firstPlayerStarting:Boolean):Result = {
+  def playOneSet(firstPlayerStarting: Boolean): Result = {
 
     var gameState = this.initialize(firstPlayerStarting)
 
@@ -53,13 +53,49 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
     }
 
     if (gameState.winner()) {
-      Result(1,0,gameState.calculateScore(true),0)
+      Result(1, 0, gameState.calculateScore(true), 0)
     }
     else {
-      Result(0,1,0,gameState.calculateScore(false))
+      Result(0, 1, 0, gameState.calculateScore(false))
     }
   }
 
+  def playOneSetWithScore(firstPlayerStarting: Boolean): Result = {
+
+
+    var scorePlayerOne = 0
+    var scorePlayerTwo = 0
+
+    var numberOfGames = 0
+
+    val finalScore = 500
+
+    while (scorePlayerOne <= finalScore & scorePlayerTwo <= finalScore) {
+
+      val firstPlayer = numberOfGames % 2 == 0
+
+      var gameState = this.initialize(firstPlayer)
+      numberOfGames = numberOfGames + 1
+
+      while (!gameState.gameEnded()) {
+        gameState = if (gameState.firstPlayerPlaying) {
+          gameState.playTurn(firstPlayerStrategy)
+        } else {
+          gameState.playTurn(secondPlayerStrategy)
+        }
+      }
+
+      if (gameState.winner())
+        scorePlayerTwo = scorePlayerTwo + gameState.calculateScore(true)
+      else
+        scorePlayerOne = scorePlayerOne + gameState.calculateScore(false)
+    }
+
+    if (scorePlayerOne > scorePlayerTwo)
+      Result(1, 0, 0, 0)
+    else
+      Result(0, 1, 0, 0)
+  }
 }
 
 

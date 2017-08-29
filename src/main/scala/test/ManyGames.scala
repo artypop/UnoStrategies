@@ -8,15 +8,14 @@ object ManyGames extends App {
 
 
   // Define players strategies
-  val playerOneStrategy = PlayingZeroFirst
+  val playerOneStrategy = StrongestStrategy
   val playerTwoStrategy = StrongestStrategy
 
   // Number of games played
-  val numberOfGames = 500000
+  val numberOfGames = 100000
 
   // Initialisation
   val game = new Game(playerOneStrategy, playerTwoStrategy)
-
 
   val t3 = System.currentTimeMillis()
 
@@ -24,7 +23,7 @@ object ManyGames extends App {
   var gameWinnedByPlayer2 = 0
 
 
-  (1 to numberOfGames).foreach {
+  /* (1 to numberOfGames).foreach {
     i => {
 
       /*
@@ -62,9 +61,7 @@ object ManyGames extends App {
   println("Number of games winned by Player 1: " + gameWinnedByPlayer1)
   println("Number of games winned by Player 2: " + gameWinnedByPlayer2)
 
-  println(t4 - t3)
-
-
+  println(t4 - t3) */
 
   val t1= System.currentTimeMillis()
 
