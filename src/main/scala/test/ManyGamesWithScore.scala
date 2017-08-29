@@ -11,7 +11,7 @@ object ManyGamesWithScore extends App {
   val playerTwoStrategy = StrongestStrategy
 
   // Number of games played
-  val numberOfGames = 200000
+  val numberOfGames = 400
 
   // Final Score to win one game
   val finalScore = 5
@@ -71,8 +71,9 @@ object ManyGamesWithScore extends App {
   println("* Number of games winned by Player 1: " + gameWinnedByPlayer1)
   println("* Number of games winned by Player 2: " + gameWinnedByPlayer2) */
 
-  val finalResult: Result = 0.until(numberOfGames).par.map{
-    setNumber  =>
+
+  val finalResult: Result = 0.until(numberOfGames).par.map {
+    setNumber =>
       game.playOneSetWithScore(setNumber % 2 == 0)
   }.reduce(_ + _)
 

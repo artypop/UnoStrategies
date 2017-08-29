@@ -70,6 +70,29 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
 
     val finalScore = 500
 
+    /* def playUntilFinalScore(intermediaryResult: Result): Result = {
+
+
+      var gameState = this.initialize(firstPlayer)
+
+      if (intermediaryResult.firstPlayerScore < finalScore & intermediaryResult.secondPlayerScore < finalScore) {
+        firstPlayer = !firstPlayer
+        playUntilFinalScore(playOneSet(firstPlayer))
+      } else {
+        if (intermediaryResult.firstPlayerScore < intermediaryResult.secondPlayerScore)
+          Result(1, 0, 0, 0)
+        else
+          Result(0, 1, 0, 0)
+      }
+    }
+
+    var resultat: Result = Result(0,0,0,0)
+
+
+    resultat = playUntilFinalScore(resultat)
+
+    resultat */
+
     while (scorePlayerOne <= finalScore & scorePlayerTwo <= finalScore) {
 
       val firstPlayer = numberOfGames % 2 == 0
