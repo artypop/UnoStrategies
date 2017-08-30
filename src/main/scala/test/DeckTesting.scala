@@ -8,8 +8,6 @@ object DeckTesting extends App {
 
   deck.allCards.foreach(println)
 
-  //println(deck.allCards.size)
-
   val rouge = Console.RED + "red" + Console.BLACK
   println(Console.BLUE_B + "blue" + Console.BLACK)
   println(rouge)

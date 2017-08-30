@@ -3,6 +3,8 @@ package services
 import strategies.Strategy
 import entities.{Colors, Deck}
 
+import scala.annotation.tailrec
+
 /**
   * Created by Simon on 20/08/2017.
   */
@@ -22,7 +24,6 @@ case class Result(firstPlayerVictories: Int,
   }
 
 }
-
 
 class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
 
@@ -53,71 +54,33 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
     }
 
     if (gameState.winner()) {
-      Result(1, 0, gameState.calculateScore(true), 0)
+      Result(1, 0, 0, gameState.calculateScore(true))
     }
     else {
-      Result(0, 1, 0, gameState.calculateScore(false))
+      Result(0, 1, gameState.calculateScore(false), 0)
     }
   }
 
-  def playOneSetWithScore(firstPlayerStarting: Boolean): Result = {
+  def playOneSetWithScore(firstPlayerStarting: Boolean, finalScore: Int): Result = {
 
 
-    var scorePlayerOne = 0
-    var scorePlayerTwo = 0
+    @tailrec def playUntilFinalScore(intermediaryResult: Result, playerPlaying: Boolean): Result = {
 
-    var numberOfGames = 0
-
-    val finalScore = 500
-
-    /* def playUntilFinalScore(intermediaryResult: Result): Result = {
-
-
-      var gameState = this.initialize(firstPlayer)
 
       if (intermediaryResult.firstPlayerScore < finalScore & intermediaryResult.secondPlayerScore < finalScore) {
-        firstPlayer = !firstPlayer
-        playUntilFinalScore(playOneSet(firstPlayer))
+        playUntilFinalScore(intermediaryResult + playOneSet(playerPlaying), !playerPlaying)
       } else {
+
         if (intermediaryResult.firstPlayerScore < intermediaryResult.secondPlayerScore)
           Result(1, 0, 0, 0)
         else
           Result(0, 1, 0, 0)
+
       }
     }
 
-    var resultat: Result = Result(0,0,0,0)
+    playUntilFinalScore(Result(0, 0, 0, 0), firstPlayerStarting)
 
-
-    resultat = playUntilFinalScore(resultat)
-
-    resultat */
-
-    while (scorePlayerOne <= finalScore & scorePlayerTwo <= finalScore) {
-
-      val firstPlayer = numberOfGames % 2 == 0
-
-      var gameState = this.initialize(firstPlayer)
-      numberOfGames = numberOfGames + 1
-
-      while (!gameState.gameEnded()) {
-        gameState = if (gameState.firstPlayerPlaying) {
-          gameState.playTurn(firstPlayerStrategy)
-        } else {
-          gameState.playTurn(secondPlayerStrategy)
-        }
-      }
-
-      if (gameState.winner())
-        scorePlayerTwo = scorePlayerTwo + gameState.calculateScore(true)
-      else
-        scorePlayerOne = scorePlayerOne + gameState.calculateScore(false)
-    }
-
-    if (scorePlayerOne > scorePlayerTwo)
-      Result(1, 0, 0, 0)
-    else
-      Result(0, 1, 0, 0)
   }
 }
 

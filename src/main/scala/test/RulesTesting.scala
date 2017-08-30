@@ -5,13 +5,6 @@ import services._
 
 object RulesTesting extends App {
 
-
-  /*  val card1 = Card(CardValue(CardTypes.cinq), Some(Colors.Bleu))
-    val card2 = Card(CardValue(CardTypes.trois), Some(Colors.Jaune))
-    val card3 = Card(CardValue(CardTypes.trois), Some(Colors.Vert))
-    val card4 = Card(CardValue(CardTypes.passeTour), Some(Colors.Bleu))
-    val card5 = Card(CardValue(CardTypes.joker), None) */
-
   val playerOneStrategy = PlayingZeroFirst
   val playerTwoStrategy = PlayingZeroFirst
 
