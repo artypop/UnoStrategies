@@ -61,6 +61,31 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
     }
   }
 
+  def playOneSetRec(firstPlayerStarting: Boolean): Result = {
+
+    val gameStateInit = this.initialize(firstPlayerStarting)
+
+    @tailrec def playUntilEnd(gameState: GameState): Result = {
+
+      if (!gameState.gameEnded()) {
+        if (gameState.firstPlayerPlaying)
+          playUntilEnd(gameState.playTurn(firstPlayerStrategy))
+        else
+          playUntilEnd(gameState.playTurn(secondPlayerStrategy))
+      }
+      else {
+        if (gameState.winner())
+          Result(1, 0, 0, gameState.calculateScore(true))
+        else
+          Result(0, 1, gameState.calculateScore(false), 0)
+      }
+    }
+
+    playUntilEnd(gameStateInit)
+
+  }
+
+
   def playOneSetWithScore(firstPlayerStarting: Boolean, finalScore: Int): Result = {
 
 

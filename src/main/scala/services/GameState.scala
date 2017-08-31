@@ -102,8 +102,8 @@ case class GameState(firstPlayerPlaying: Boolean, stack: List[Card], currentPlay
 
     if (currentCardChange & newCurrentCard.cardValue.makesSkipTurn)
       GameState(firstPlayerPlaying, newStack, newCurrentPlayerHand, newOtherPlayerHand, newCurrentCard, newChosenColor)
-
-    else GameState(!firstPlayerPlaying, newStack, newOtherPlayerHand, newCurrentPlayerHand, newCurrentCard, newChosenColor)
+    else
+      GameState(!firstPlayerPlaying, newStack, newOtherPlayerHand, newCurrentPlayerHand, newCurrentCard, newChosenColor)
 
   }
 
