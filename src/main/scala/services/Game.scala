@@ -4,6 +4,7 @@ import strategies.Strategy
 import entities.{CardTypes, Colors, Deck}
 import entities.Card
 import entities.CardTypes._
+import entities.Colors.Color
 
 import scala.annotation.tailrec
 
@@ -55,38 +56,41 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
 
     val firstCard = deck.allCards.head
 
-    val gsInit: (Boolean, Array[Card], Array[Card], List[Card], Option[Colors.Color]) = firstCard.cardValue.cardType match {
+    val gsInit: (Boolean, Array[Card], Array[Card], List[Card]) = firstCard.cardValue.cardType match {
 
       case `changeSens` | `passeTour` =>
         (!firstPlayerPlaying,
           deck.allCards.slice(1, 8).toArray,
           deck.allCards.slice(8, 15).toArray,
-          deck.allCards.drop(15),
-          None)
+          deck.allCards.drop(15))
 
       case `plusDeux` =>
         (!firstPlayerPlaying,
           deck.allCards.slice(1, 10).toArray,
           deck.allCards.slice(10, 17).toArray,
-          deck.allCards.drop(17), None)
+          deck.allCards.drop(17))
 
       case `superJoker` =>
         (!firstPlayerPlaying,
           deck.allCards.slice(1, 12).toArray,
           deck.allCards.slice(12, 19).toArray,
-          deck.allCards.drop(19),
-          Some(firstPlayerStrategy.choseColorRandomly()))
+          deck.allCards.drop(19))
 
       case _ =>
         (firstPlayerPlaying,
           deck.allCards.slice(1, 8).toArray,
           deck.allCards.slice(8, 15).toArray,
-          deck.allCards.drop(15),
-          if (firstCard.color.isDefined) None else Some(firstPlayerStrategy.choseColorRandomly()))
+          deck.allCards.drop(15))
 
     }
 
-    GameState(gsInit._1, gsInit._4, gsInit._3, gsInit._2, firstCard, gsInit._5)
+    val colorCard: Option[Color] = if (firstCard.color.isDefined) None else {
+      if (firstPlayerPlaying) Some(firstPlayerStrategy.chooseColorFirstCard(gsInit._3)) else
+        Some(secondPlayerStrategy.chooseColorFirstCard(gsInit._3))
+    }
+
+    GameState(gsInit._1, gsInit._4, gsInit._3, gsInit._2, firstCard, colorCard)
+
 
   }
 

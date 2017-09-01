@@ -6,7 +6,7 @@ import services._
 object ManyGamesWithScore extends App {
 
   // Define players strategies
-  val playerOneStrategy = PlayingZeroFirst
+  val playerOneStrategy = StrongestStrategy
   val playerTwoStrategy = StrongestStrategy
 
   // Number of games played

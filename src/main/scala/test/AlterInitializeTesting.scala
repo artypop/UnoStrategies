@@ -11,7 +11,7 @@ object AlterInitializeTesting extends App {
 
   val game = new Game(playerOneStrategy, playerTwoStrategy)
 
-  var gameState = game.alterInitialize(true)
+  var gameState = game.alterInitialize(false)
   println(gameState)
 
   while (!gameState.gameEnded()) {
