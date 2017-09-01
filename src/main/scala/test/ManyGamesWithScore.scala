@@ -2,16 +2,15 @@ package test
 
 import strategies._
 import services._
-// import test.ManyGames.{game, numberOfGames}
 
 object ManyGamesWithScore extends App {
 
   // Define players strategies
-  val playerOneStrategy = OtherRandomStrategy
+  val playerOneStrategy = PlayingZeroFirst
   val playerTwoStrategy = StrongestStrategy
 
   // Number of games played
-  val numberOfGames = 2000
+  val numberOfGames = 10000
 
   // Final Score to win one game
   val finalScore = 500

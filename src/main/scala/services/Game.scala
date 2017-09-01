@@ -4,7 +4,6 @@ import strategies.Strategy
 import entities.{CardTypes, Colors, Deck}
 import entities.Card
 import entities.CardTypes._
-import sun.awt.AWTIcon32_java_icon32_png
 
 import scala.annotation.tailrec
 
@@ -54,9 +53,9 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
     val deck = Deck()
 
 
-    val carteUn = deck.allCards.head
+    val firstCard = deck.allCards.head
 
-    val gsInit: Tuple5[Boolean, Array[Card], Array[Card], List[Card], Option[Colors.Color]] = carteUn.cardValue.cardType match {
+    val gsInit: (Boolean, Array[Card], Array[Card], List[Card], Option[Colors.Color]) = firstCard.cardValue.cardType match {
 
       case `changeSens` | `passeTour` =>
         (!firstPlayerPlaying,
@@ -83,17 +82,17 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
           deck.allCards.slice(1, 8).toArray,
           deck.allCards.slice(8, 15).toArray,
           deck.allCards.drop(15),
-          if (carteUn.color.isDefined) None else Some(firstPlayerStrategy.choseColorRandomly()))
+          if (firstCard.color.isDefined) None else Some(firstPlayerStrategy.choseColorRandomly()))
 
     }
 
-    GameState(gsInit._1, gsInit._4, gsInit._3, gsInit._2, carteUn, gsInit._5)
+    GameState(gsInit._1, gsInit._4, gsInit._3, gsInit._2, firstCard, gsInit._5)
 
   }
 
   def playOneSet(firstPlayerStarting: Boolean): Result = {
 
-    var gameState = this.initialize(firstPlayerStarting)
+    var gameState = this.alterInitialize(firstPlayerStarting)
 
     while (!gameState.gameEnded()) {
       gameState = if (gameState.firstPlayerPlaying) {
@@ -113,7 +112,7 @@ class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
 
   def playOneSetRec(firstPlayerStarting: Boolean): Result = {
 
-    val gameStateInit = this.initialize(firstPlayerStarting)
+    val gameStateInit = this.alterInitialize(firstPlayerStarting)
 
     @tailrec def playUntilEnd(gameState: GameState): Result = {
 

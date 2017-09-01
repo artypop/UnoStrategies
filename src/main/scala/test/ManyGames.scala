@@ -6,8 +6,8 @@ import services._
 object ManyGames extends App {
 
   // Define players strategies
-  val playerOneStrategy = RandomStrategy
-  val playerTwoStrategy = RandomStrategy
+  val playerOneStrategy = StrongestStrategy
+  val playerTwoStrategy = StrongestStrategy
 
   // Number of games played
   val numberOfGames = 100000
