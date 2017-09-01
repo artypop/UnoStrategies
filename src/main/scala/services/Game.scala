@@ -1,7 +1,10 @@
 package services
 
 import strategies.Strategy
-import entities.{Colors, Deck}
+import entities.{CardTypes, Colors, Deck}
+import entities.Card
+import entities.CardTypes._
+import sun.awt.AWTIcon32_java_icon32_png
 
 import scala.annotation.tailrec
 
@@ -28,16 +31,63 @@ case class Result(firstPlayerVictories: Int,
 class Game(firstPlayerStrategy: Strategy, secondPlayerStrategy: Strategy) {
 
   def initialize(firstPlayerPlaying: Boolean): GameState = {
+
     val deck = Deck()
 
     val firstPlayerHand = deck.allCards.slice(0, 7).toArray
+
     val secondPlayerHand = deck.allCards.slice(7, 14).toArray
-    val firstCard = deck.allCards(15)
+
+    val firstCard = deck.allCards(14)
+
     val stack = deck.allCards.drop(15)
 
     if (firstCard.color.isDefined)
       GameState(firstPlayerPlaying, stack, firstPlayerHand, secondPlayerHand, firstCard, None)
     else GameState(firstPlayerPlaying, stack, firstPlayerHand, secondPlayerHand, firstCard, Some(firstPlayerStrategy.choseColorRandomly()))
+
+
+  }
+
+  def alterInitialize(firstPlayerPlaying: Boolean): GameState = {
+
+    val deck = Deck()
+
+
+    val carteUn = deck.allCards.head
+
+    val gsInit: Tuple5[Boolean, Array[Card], Array[Card], List[Card], Option[Colors.Color]] = carteUn.cardValue.cardType match {
+
+      case `changeSens` | `passeTour` =>
+        (!firstPlayerPlaying,
+          deck.allCards.slice(1, 8).toArray,
+          deck.allCards.slice(8, 15).toArray,
+          deck.allCards.drop(15),
+          None)
+
+      case `plusDeux` =>
+        (!firstPlayerPlaying,
+          deck.allCards.slice(1, 10).toArray,
+          deck.allCards.slice(10, 17).toArray,
+          deck.allCards.drop(17), None)
+
+      case `superJoker` =>
+        (!firstPlayerPlaying,
+          deck.allCards.slice(1, 12).toArray,
+          deck.allCards.slice(12, 19).toArray,
+          deck.allCards.drop(19),
+          Some(firstPlayerStrategy.choseColorRandomly()))
+
+      case _ =>
+        (firstPlayerPlaying,
+          deck.allCards.slice(1, 8).toArray,
+          deck.allCards.slice(8, 15).toArray,
+          deck.allCards.drop(15),
+          if (carteUn.color.isDefined) None else Some(firstPlayerStrategy.choseColorRandomly()))
+
+    }
+
+    GameState(gsInit._1, gsInit._4, gsInit._3, gsInit._2, carteUn, gsInit._5)
 
   }
 
